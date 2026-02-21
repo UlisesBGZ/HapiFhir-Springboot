@@ -103,12 +103,11 @@ spring:
     fail-on-missing-locations: false
 
   datasource:
-    # url: "jdbc:h2:file:./target/database/h2"
-    url: jdbc:h2:mem:test_mem
-    username: sa
-    password: null
-    driver-class-name: org.h2.Driver
-    # max-active: 15     # (ignored with HikariCP; use hikari.maximum-pool-size)
+    # PostgreSQL configuration for FHIR backend
+    url: jdbc:postgresql://localhost:5432/fhirdb
+    username: fhiruser
+    password: fhirpass
+    driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
 
@@ -117,10 +116,8 @@ spring:
       hibernate:
         format_sql: false
         show_sql: false
-        # Hibernate dialect is auto-detected except for H2/Postgres.
-        # If using H2:     ca.uhn.fhir.jpa.model.dialect.HapiFhirH2Dialect
-        # If using Postgres: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
-        dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirH2Dialect
+        # Hibernate dialect: Using HapiFhirPostgresDialect for PostgreSQL
+        dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
 
         # --- Optional Hibernate DDL & tuning (commented out from source) ---
         hbm2ddl:
@@ -478,3 +475,10 @@ hapi:
         server_address: 'http://localhost:8080/fhir'
         refuse_to_fetch_third_party_urls: false
         fhir_version: R4
+
+# -------------------------------------------------------------------------------------
+# JWT Authentication Configuration
+# -------------------------------------------------------------------------------------
+jwt:
+  secret: mySecretKeyForJWTAuthentication1234567890123456789012345678901234567890
+  expiration: 86400000  # 24 hours in milliseconds

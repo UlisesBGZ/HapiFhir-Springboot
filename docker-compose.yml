@@ -4,11 +4,13 @@ services:
     container_name: hapi-fhir-jpaserver-start
     restart: on-failure
     environment:
-      SPRING_DATASOURCE_URL: "jdbc:postgresql://hapi-fhir-postgres:5432/hapi"
-      SPRING_DATASOURCE_USERNAME: "admin"
-      SPRING_DATASOURCE_PASSWORD: "admin"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://hapi-fhir-postgres:5432/fhirdb"
+      SPRING_DATASOURCE_USERNAME: "fhiruser"
+      SPRING_DATASOURCE_PASSWORD: "fhirpass"
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
+      APP_JWT_SECRET: "MySecretKeyForJWTAuthenticationThatIsAtLeast256BitsLongForHS256Algorithm"
+      APP_JWT_EXPIRATION: "86400000"
     ports:
       - "8080:8080"
     depends_on:
@@ -19,11 +21,11 @@ services:
     container_name: hapi-fhir-postgres
     restart: always
     environment:
-      POSTGRES_DB: "hapi"
-      POSTGRES_USER: "admin"
-      POSTGRES_PASSWORD: "admin"
+      POSTGRES_DB: "fhirdb"
+      POSTGRES_USER: "fhiruser"
+      POSTGRES_PASSWORD: "fhirpass"
     healthcheck:
-      test: ["CMD-SHELL", "sh -c 'pg_isready -U admin -d hapi' || exit 1"]
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U fhiruser -d fhirdb' || exit 1"]
       interval: 10s
       timeout: 5s
       start_period: 5s
