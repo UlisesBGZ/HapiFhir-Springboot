@@ -10,31 +10,91 @@ Solución completa con:
 
 ---
 
-## 🚀 **Inicio Rápido (5 Minutos)**
+## � **Requisitos Previos**
 
-### **Opción 1: Script Automatizado (Windows)**
+- ✅ **Java 17+** (JDK instalado y JAVA_HOME configurado)
+- ✅ **Flutter 3.27+** (agregado al PATH del sistema)
+- ✅ **Docker Desktop** (corriendo)
+- ✅ **Git** (opcional, para clonar)
+- ✅ **PostgreSQL 16** (Docker container)
+
+### **Verificar Requisitos**
 
 ```powershell
-# Ejecuta este script y todo se configurará automáticamente
-.\start-system.bat
+java -version          # Java 17 o superior
+flutter --version      # Flutter 3.27 o superior
+docker --version       # Docker instalado
+echo $env:JAVA_HOME    # Debe mostrar ruta a JDK
 ```
 
-### **Opción 2: Manual**
+---
+
+## 🚀 **Inicio Rápido (Primera Vez)**
+
+### **Paso 1: Configurar Variables de Entorno**
 
 ```powershell
-# 1. Iniciar PostgreSQL
+# Ejecutar como Administrador
+[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Java\jdk-21.0.10", "Machine")
+$currentPath = [Environment]::GetEnvironmentVariable("Path", "Machine")
+$newPath = "$currentPath;C:\src\flutter\bin"
+[Environment]::SetEnvironmentVariable("Path", $newPath, "Machine")
+
+# Cerrar y reabrir PowerShell
+```
+
+**O usar el script incluido:**
+```powershell
+# Como Administrador
+.\configurar-variables-entorno.ps1
+```
+
+### **Paso 2: Iniciar PostgreSQL**
+
+```powershell
+# Primera vez o si no existe el contenedor
+docker-compose up -d hapi-fhir-postgres
+
+# Si ya existe, solo iniciarlo
 docker start hapi-fhir-postgres
 
-# 2. Compilar backend
-.\mvnw.cmd clean package -DskipTests
+# Verificar que está corriendo
+docker ps
+```
 
-# 3. Iniciar servidor
-java -jar target/ROOT.war
+### **Paso 3: Iniciar Backend**
 
-# 4. En otra terminal, iniciar Flutter
+```powershell
+# En el directorio raíz del proyecto
+cd C:\Users\Ulises\Desktop\HapiFhir-Springboot
+.\mvnw.cmd spring-boot:run -Pboot
+
+# Espera a ver: "Started Application in XX seconds"
+# Backend estará en http://localhost:8080
+```
+
+### **Paso 4: Iniciar Frontend (en otra terminal)**
+
+```powershell
+# Nueva terminal PowerShell
+cd C:\Users\Ulises\Desktop\HapiFhir-Springboot\flutter_frontend
+flutter run -d chrome
+
+# Chrome se abrirá automáticamente
+```
+
+---
+
+## ⚡ **Inicio Rápido (Sesiones Siguientes)**
+
+```powershell
+# Terminal 1 - Backend
+cd C:\Users\Ulises\Desktop\HapiFhir-Springboot
+.\mvnw.cmd spring-boot:run -Pboot
+
+# Terminal 2 - Frontend
 cd flutter_frontend
-flutter pub get
-flutter run
+flutter run -d chrome
 ```
 
 ---
@@ -145,9 +205,12 @@ hapi-fhir-jpaserver-starter/
 │
 ├── pom.xml                            # Dependencias Maven
 ├── docker-compose.yml                 # PostgreSQL + HAPI
-├── start-system.bat                   # 🚀 Script de inicio
+├── configurar-variables-entorno.ps1   # 🚀 Script para JAVA_HOME y Flutter PATH
 ├── SERVIDOR_CONFIGURADO.md            # Estado del servidor
 ├── AUTH_INTEGRATION_GUIDE.md          # 📖 Guía completa
+├── CONTEXTO_PARA_NUEVA_SESION.md      # 📚 Contexto técnico completo
+├── DESARROLLO_COMPLETO.md             # 📚 Historia del desarrollo
+├── TESTING.md                         # 🧪 Guía de tests
 └── README_SISTEMA_COMPLETO.md         # Este archivo
 ```
 
@@ -156,39 +219,75 @@ hapi-fhir-jpaserver-starter/
 ## 🔧 **Tecnologías Utilizadas**
 
 ### **Backend**
-- Java 17
+- Java 21.0.10 (compatible con Java 17+)
 - Spring Boot 3.5.9
 - HAPI FHIR 8.6.1
 - Spring Security 6.x
 - JWT (JJWT 0.12.6)
-- PostgreSQL 16
+- PostgreSQL 16 (Docker)
 - Hibernate/JPA
-- Maven
+- Maven 3.3.2 (Maven Wrapper)
 
 ### **Frontend**
-- Flutter 3.x
-- Dart 3.x
+- Flutter 3.27.3
+- Dart 3.10.7
 - Provider (State Management)
 - HTTP package
 - SharedPreferences
 - Material Design 3
 
+### **DevOps**
+- Docker Desktop 29.2+
+- Docker Compose
+- Git 2.53+
+- PowerShell 7+
+
 ---
 
 ## 📖 **Documentación Detallada**
 
-1. **[SERVIDOR_CONFIGURADO.md](SERVIDOR_CONFIGURADO.md)**
-   - Estado del servidor HAPI FHIR
-   - URLs y endpoints
-   - Troubleshooting
-
-2. **[AUTH_INTEGRATION_GUIDE.md](AUTH_INTEGRATION_GUIDE.md)** ⭐
+1. **[AUTH_INTEGRATION_GUIDE.md](AUTH_INTEGRATION_GUIDE.md)** ⭐
    - Guía completa paso a paso
    - Pruebas de funcionalidad
    - Solución de problemas
    - Arquitectura del sistema
 
-3. **[flutter_frontend/README.md](flutter_frontend/README.md)**
+2. **[CONTEXTO_PARA_NUEVA_SESION.md](CONTEXTO_PARA_NUEVA_SESION.md)** ⭐⭐
+   - Contexto técnico completo (5,500+ líneas)
+   - Estructura detallada del proyecto
+   - Configuración de todos los componentes
+   - Endpoints y credenciales
+
+3. **[DESARROLLO_COMPLETO.md](DESARROLLO_COMPLETO.md)**
+   - Historia del desarrollo (700+ líneas)
+   - Problemas resueltos
+   - Decisiones técnicas
+   - Fases del proyecto
+
+4. **[TESTING.md](TESTING.md)**
+   - Guía de tests completa
+   - 23 tests backend + 25 tests frontend
+   - Cómo ejecutar tests
+   - Resultados esperados
+
+5. **[CHECKLIST_TRANSFERENCIA.md](CHECKLIST_TRANSFERENCIA.md)**
+   - Transferir proyecto a nueva laptop
+   - Requisitos previos
+   - Pasos de configuración
+   - Verificación de integridad
+
+6. **[GUIA_GITHUB.md](GUIA_GITHUB.md)**
+   - Subir proyecto a GitHub
+   - Configurar Git
+   - Comandos útiles
+   - Sincronización
+
+7. **[SERVIDOR_CONFIGURADO.md](SERVIDOR_CONFIGURADO.md)**
+   - Estado del servidor HAPI FHIR
+   - URLs y endpoints
+   - Troubleshooting
+
+8. **[flutter_frontend/README.md](flutter_frontend/README.md)**
    - Documentación específica de Flutter
    - Configuración de la app
    - Builds y deployment
@@ -284,17 +383,31 @@ JOIN user_roles r ON u.id = r.user_id;
 
 ### **2. Flutter no conecta al backend**
 
+**Para Web (Chrome/Edge):**
 ```dart
 // En lib/config/api_config.dart
-// Para Android Emulator:
-static const String baseUrl = 'http://10.0.2.2:8080';
-
-// Para iOS Simulator:
-static const String baseUrl = 'http://localhost:8080';
-
-// Para dispositivo físico (tu IP):
-static const String baseUrl = 'http://192.168.1.X:8080';
+static const String _webBaseUrl = 'http://localhost:8080';
 ```
+
+**Para Móvil (Android/iOS):**
+```dart
+// En lib/config/api_config.dart
+// Actualiza con tu IP de red local
+static const String _mobileBaseUrl = 'http://192.168.0.181:8080';
+```
+
+**Encontrar tu IP:**
+```powershell
+ipconfig | Select-String "IPv4"
+# Actualiza la IP en:
+# - flutter_frontend/lib/config/api_config.dart
+# - flutter_frontend/lib/services/fhir_service.dart
+```
+
+**Configuración Dinámica Actual:**
+- Detecta automáticamente si es web (`kIsWeb`)
+- Web usa `localhost:8080`
+- Móvil usa IP de red: `192.168.0.181:8080`
 
 ### **3. PostgreSQL no arranca**
 
@@ -302,14 +415,26 @@ static const String baseUrl = 'http://192.168.1.X:8080';
 # Ver logs
 docker logs hapi-fhir-postgres
 
-# Recrear contenedor
-docker rm -f hapi-fhir-postgres
-docker run -d --name hapi-fhir-postgres `
-  -e POSTGRES_DB=fhirdb `
-  -e POSTGRES_USER=fhiruser `
-  -e POSTGRES_PASSWORD=fhirpass `
-  -p 5432:5432 `
-  postgres:16-alpine
+# Recrear contenedor con docker-compose
+docker-compose down
+docker-compose up -d hapi-fhir-postgres
+
+# Verificar estado
+docker ps --filter "name=postgres"
+
+# Debe mostrar puerto mapeado: 0.0.0.0:5432->5432/tcp
+```
+
+### **5. Error: JAVA_HOME not found**
+
+```powershell
+# Configurar JAVA_HOME para esta sesión
+$env:JAVA_HOME = "C:\Program Files\Java\jdk-21.0.10"
+
+# O configurar permanentemente (como Administrador)
+[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Java\jdk-21.0.10", "Machine")
+
+# Reiniciar PowerShell después
 ```
 
 ### **4. Admin no se crea**
@@ -393,7 +518,17 @@ GET http://localhost:8080/actuator/metrics
 - Host: localhost
 - Port: 5432
 - Database: fhirdb
-- User: fhiruser
+- Usuario: fhiruser
+- Password: fhirpass
+
+**Conexión:**
+```powershell
+# Verificar que PostgreSQL está corriendo
+docker ps --filter "name=postgres"
+
+# Conectarse a la base de datos
+docker exec -it hapi-fhir-postgres psql -U fhiruser -d fhirdb
+```
 
 ---
 
@@ -496,30 +631,92 @@ Este proyecto es parte del Sistema Hospitalario HAPI FHIR.
 
 Antes de considerar el sistema completo, verifica:
 
-- [x] PostgreSQL corriendo
-- [x] Backend compilado exitosamente
-- [x] Servidor iniciado sin errores
-- [x] Admin creado automáticamente
-- [x] Login funciona desde API
-- [x] Flutter app compila
-- [x] Flutter conecta al backend
-- [x] Login funciona desde Flutter
+**Requisitos:**
+- [x] Java 21+ instalado
+- [x] JAVA_HOME configurado permanentemente
+- [x] Flutter 3.27+ instalado
+- [x] Flutter agregado al PATH del sistema
+- [x] Docker Desktop instalado y corriendo
+- [x] Git instalado (opcional)
+
+**Sistema:**
+- [x] PostgreSQL corriendo en Docker (puerto 5432 mapeado)
+- [x] Maven Wrapper descargado (63 KB)
+- [x] Backend compila sin errores
+- [x] Servidor inicia correctamente (~18-26 segundos)
+- [x] Admin creado automáticamente (admin/admin123)
+- [x] Login funciona desde API REST
+- [x] Flutter app compila sin errores
+- [x] Flutter conecta al backend (localhost para web)
+- [x] IP de red configurada (192.168.0.181 para móvil)
+- [x] Login funciona desde Flutter web
 - [x] Registro de usuarios funciona
 - [x] Creación de admins funciona
-- [x] Home muestra datos correctos
+- [x] Home muestra datos correctos con roles
 - [x] Logout funciona
 - [x] Sesión persiste al cerrar/abrir app
+- [x] Proyecto sincronizado con GitHub
+
+**Tests:**
+- [x] Backend: 23/23 tests pasando (AuthController + UserController)
+- [x] Frontend: 25/25 tests pasando (auth_service + fhir_service)
 
 ---
 
 **🎉 ¡Sistema Completo y Funcionando!**
 
 ```
-Backend:     ✅ Spring Boot + HAPI FHIR + JWT
-Database:    ✅ PostgreSQL con autenticación y FHIR
+Backend:     ✅ Spring Boot + HAPI FHIR + JWT (puerto 8080)
+Database:    ✅ PostgreSQL 16 con autenticación y FHIR (puerto 5432)
 Frontend:    ✅ Flutter con Login, Registro y Home
+Config:      ✅ JAVA_HOME y Flutter PATH configurados
+Network:     ✅ IP dinámica para web (localhost) y móvil (192.168.0.181)
 Docs:        ✅ Guías completas y troubleshooting
-Automation:  ✅ Scripts de inicio rápido
+Tests:       ✅ 48 tests pasando (23 backend + 25 frontend)
+GitHub:      ✅ Sincronizado con repositorio remoto
+```
+
+## 🚀 **Comandos de Referencia Rápida**
+
+```powershell
+# Iniciar Sistema Completo
+# Terminal 1 - Backend:
+cd C:\Users\Ulises\Desktop\HapiFhir-Springboot
+.\mvnw.cmd spring-boot:run -Pboot
+
+# Terminal 2 - Frontend:
+cd flutter_frontend
+flutter run -d chrome
+
+# Verificar Estado
+docker ps                          # PostgreSQL corriendo
+java -version                      # Java instalado
+flutter --version                  # Flutter instalado
+echo $env:JAVA_HOME                # JAVA_HOME configurado
+git status                         # Estado del repositorio
+
+# Tests
+.\mvnw.cmd test -Dtest="AuthControllerTest,UserControllerTest"
+cd flutter_frontend; flutter test
+
+# Git
+git add .
+git commit -m "descripción"
+git push origin master
 ```
 
 **Desarrollado con ❤️ para el Sistema Hospitalario**
+
+---
+
+## 📚 **Documentación Adicional**
+
+| Archivo | Descripción |
+|---------|-------------|
+| [CONTEXTO_PARA_NUEVA_SESION.md](CONTEXTO_PARA_NUEVA_SESION.md) | Guía técnica completa (5,500+ líneas) |
+| [DESARROLLO_COMPLETO.md](DESARROLLO_COMPLETO.md) | Historia del desarrollo (700+ líneas) |
+| [TESTING.md](TESTING.md) | Guía de tests y resultados |
+| [AUTH_INTEGRATION_GUIDE.md](AUTH_INTEGRATION_GUIDE.md) | Integración de autenticación |
+| [CHECKLIST_TRANSFERENCIA.md](CHECKLIST_TRANSFERENCIA.md) | Para transferir a otra laptop |
+| [GUIA_GITHUB.md](GUIA_GITHUB.md) | Guía de Git y GitHub |
+| [.github/copilot-instructions.md](.github/copilot-instructions.md) | Instrucciones para Copilot |
