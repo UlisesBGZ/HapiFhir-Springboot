@@ -6,7 +6,7 @@ class ApiConfig {
 
   // 🔧 SOLO CAMBIA ESTA IP si corres en dispositivo móvil
   // Para encontrar tu IP: En PowerShell ejecuta: ipconfig | Select-String "IPv4"
-  static const String _mobileBaseUrl = 'http://192.168.21.0:8080';
+  static const String _mobileBaseUrl = 'http://192.168.0.181:8080';
   static const String _webBaseUrl = 'http://localhost:8080';
 
   // Getter dinámico que detecta la plataforma

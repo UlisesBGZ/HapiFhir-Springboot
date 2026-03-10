@@ -12,7 +12,7 @@ import '../models/user.dart';
 class FhirService {
   // ⚙️ CONFIGURACIÓN DINÁMICA DE RED
   // 🔧 SOLO CAMBIA ESTAS IPs si corres en dispositivo móvil
-  static const String _mobileBaseUrl = 'http://192.168.21.0:8080/fhir';
+  static const String _mobileBaseUrl = 'http://192.168.0.181:8080/fhir';
   static const String _webBaseUrl = 'http://localhost:8080/fhir';
 
   // Getter dinámico que detecta la plataforma
