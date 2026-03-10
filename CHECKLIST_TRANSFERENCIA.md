@@ -84,15 +84,15 @@ Antes de cerrar esta laptop, verificar que estos archivos estén presentes:
 ### Software a Instalar
 
 ```powershell
-# 1. Java (JDK 17 o superior)
+# 1. Java (JDK 17 o superior) - Verificado: 21.0.10
 # Descargar de: https://adoptium.net/
 java -version
-# Debe mostrar: openjdk version "17" o superior
+# Debe mostrar: openjdk version "21.0.10" o superior
 
-# 2. Flutter (3.38 o superior)
+# 2. Flutter (3.27 o superior) - Verificado: 3.27.3
 # Descargar de: https://docs.flutter.dev/get-started/install
 flutter --version
-# Debe mostrar: Flutter 3.38.7 o superior
+# Debe mostrar: Flutter 3.27.3 o superior
 
 # 3. Docker Desktop
 # Descargar de: https://www.docker.com/products/docker-desktop/

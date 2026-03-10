@@ -4,7 +4,7 @@
 
 **Proyecto**: Sistema de Gestión Hospitalaria FHIR con Autenticación JWT  
 **Estado**: ✅ Completamente funcional  
-**Stack**: Spring Boot 3.5.9 + HAPI FHIR 8.6.1 + Flutter 3.38.7 + PostgreSQL 16
+**Stack**: Spring Boot 3.5.9 + HAPI FHIR 8.6.1 + Flutter 3.27.3 + PostgreSQL 16
 
 ## Estructura Clave
 

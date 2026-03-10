@@ -67,11 +67,12 @@ Este es el índice de toda la documentación disponible para transferir el proye
 
 **✅ COMPLETAMENTE FUNCIONAL**
 
-- **Backend**: Spring Boot 3.5.9 + HAPI FHIR 8.6.1 en puerto 8080
-- **Frontend**: Flutter 3.38.7 (web + Android)
+- **Backend**: Spring Boot 3.5.9 + HAPI FHIR 8.6.1 + Java 21.0.10 en puerto 8080
+- **Frontend**: Flutter 3.27.3 (web + Android)
 - **Base de Datos**: PostgreSQL 16 en Docker (puerto 5432)
+- **Build**: Maven Wrapper 3.3.2
 - **Tests**: 23/23 backend ✅ + 25/25 frontend ✅ (100% pasando)
-- **Configuración**: Dinámica (localhost para web, IP para móvil)
+- **Configuración**: Dinámica (localhost para web, IP 192.168.0.181 para móvil)
 
 ---
 

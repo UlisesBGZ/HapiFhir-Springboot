@@ -19,9 +19,10 @@
 - Configuración dinámica de red implementada
 
 **Stack Tecnológico**:
-- **Backend**: Spring Boot 3.5.9 + HAPI FHIR 8.6.1 + Java 23.0.1/17
-- **Frontend**: Flutter 3.38.7 + Dart 3.10.7 + Material Design 3
+- **Backend**: Spring Boot 3.5.9 + HAPI FHIR 8.6.1 + Java 21.0.10
+- **Frontend**: Flutter 3.27.3 + Dart 3.6.1 + Material Design 3
 - **Base de Datos**: PostgreSQL 16 (Docker)
+- **Build**: Maven Wrapper 3.3.2
 - **Auth**: JWT (JJWT 0.12.6) + BCrypt
 - **Testing**: JUnit 5 + Mockito (backend), flutter_test (frontend)
 
@@ -32,13 +33,13 @@
 ### Paso 1: Verificar Requisitos Previos
 
 ```powershell
-# Java 17 o superior
+# Java 17 o superior (verificado: 21.0.10)
 java -version
-# Debe mostrar: java version "17" o superior
+# Debe mostrar: java version "21.0.10" o superior
 
-# Flutter 3.38 o superior
+# Flutter 3.27 o superior (verificado: 3.27.3)
 flutter --version
-# Debe mostrar: Flutter 3.38.7
+# Debe mostrar: Flutter 3.27.3
 
 # Docker Desktop corriendo
 docker --version

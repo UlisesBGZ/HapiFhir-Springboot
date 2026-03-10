@@ -1,57 +1,57 @@
-# HAPI-FHIR Starter Project
+# Proyecto Base HAPI-FHIR
 
-This project is a complete starter project you can use to deploy a FHIR server using HAPI FHIR JPA.
+Este proyecto es un proyecto inicial completo que puedes usar para desplegar un servidor FHIR usando HAPI FHIR JPA.
 
-Note that this project is specifically intended for end users of the HAPI FHIR JPA server module (in other words, it helps you implement HAPI FHIR, it is not the source of the library itself). If you are looking for the main HAPI FHIR project, see here: https://github.com/hapifhir/hapi-fhir
+Ten en cuenta que este proyecto está específicamente diseñado para usuarios finales del módulo servidor HAPI FHIR JPA (en otras palabras, te ayuda a implementar HAPI FHIR, no es la fuente de la librería en sí). Si estás buscando el proyecto principal de HAPI FHIR, mira aquí: https://github.com/hapifhir/hapi-fhir
 
-While this project shows how you can use many parts of the HAPI FHIR framework there are a set of features which you should be aware of are missing or something you need to supply yourself or get professional support ahead of using it directly in production:
+Si bien este proyecto muestra cómo puedes usar muchas partes del framework HAPI FHIR, hay un conjunto de características que debes tener en cuenta que faltan o que necesitas proporcionar tú mismo o obtener soporte profesional antes de usarlo directamente en producción:
 
-1) The service comes with no security implementation. See how it can be done [here](https://hapifhir.io/hapi-fhir/docs/security/introduction.html)
-2) The service comes with no enterprise logging. See how it can be done [here](https://hapifhir.io/hapi-fhir/docs/security/balp_interceptor.html)
-3) The internal topic cache used by subscriptions in HAPI FHIR are not shared across multiple instances as the [default supplied implementation is in-mem](https://github.com/hapifhir/hapi-fhir/blob/master/hapi-fhir-jpaserver-subscription/src/main/java/ca/uhn/fhir/jpa/topic/ActiveSubscriptionTopicCache.java)
-4) The internal message broker channel in HAPI FHIR is not shared across multiple instances as the [default supplied implementation is in-mem](https://github.com/hapifhir/hapi-fhir/blob/master/hapi-fhir-storage/src/main/java/ca/uhn/fhir/jpa/subscription/channel/api/IChannelFactory.java). This impacts the use of modules listed [here](https://smilecdr.com/docs/installation/message_broker.html#modules-dependent-on-message-brokers)
+1) El servicio no incluye implementación de seguridad. Ve cómo se puede hacer [aquí](https://hapifhir.io/hapi-fhir/docs/security/introduction.html)
+2) El servicio no incluye registro empresarial. Ve cómo se puede hacer [aquí](https://hapifhir.io/hapi-fhir/docs/security/balp_interceptor.html)
+3) El caché interno de tópicos usado por las suscripciones en HAPI FHIR no se comparte entre múltiples instancias ya que la [implementación predeterminada está en memoria](https://github.com/hapifhir/hapi-fhir/blob/master/hapi-fhir-jpaserver-subscription/src/main/java/ca/uhn/fhir/jpa/topic/ActiveSubscriptionTopicCache.java)
+4) El canal interno del broker de mensajes en HAPI FHIR no se comparte entre múltiples instancias ya que la [implementación predeterminada está en memoria](https://github.com/hapifhir/hapi-fhir/blob/master/hapi-fhir-storage/src/main/java/ca/uhn/fhir/jpa/subscription/channel/api/IChannelFactory.java). Esto impacta el uso de módulos listados [aquí](https://smilecdr.com/docs/installation/message_broker.html#modules-dependent-on-message-brokers)
 
-Need Help? Please see: https://github.com/hapifhir/hapi-fhir/wiki/Getting-Help
+¿Necesitas Ayuda? Por favor consulta: https://github.com/hapifhir/hapi-fhir/wiki/Getting-Help
 
-## Prerequisites
+## Prerequisitos
 
-In order to use this sample, you should have:
+Para usar este ejemplo, debes tener:
 
-- [This project](https://github.com/hapifhir/hapi-fhir-jpaserver-starter) checked out. You may wish to create a GitHub Fork of the project and check that out instead so that you can customize the project and save the results to GitHub.
+- [Este proyecto](https://github.com/hapifhir/hapi-fhir-jpaserver-starter) clonado. Puedes crear un Fork en GitHub del proyecto y clonarlo en su lugar para que puedas personalizar el proyecto y guardar los resultados en GitHub.
 
-### and either
- - Oracle Java (JDK) installed: Minimum JDK17 or newer.
- - Apache Maven build tool (newest version)
+### y cualquiera de estos
+ - Oracle Java (JDK) instalado: Mínimo JDK17 o superior.
+ - Herramienta de construcción Apache Maven (versión más reciente)
 
-### or
- - Docker, as the entire project can be built using multistage docker (with both JDK and maven wrapped in docker) or used directly from [Docker Hub](https://hub.docker.com/r/hapiproject/hapi)
+### o
+ - Docker, ya que todo el proyecto puede ser construido usando docker multietapa (con JDK y maven envueltos en docker) o usado directamente desde [Docker Hub](https://hub.docker.com/r/hapiproject/hapi)
 
-## Running via [Docker Hub](https://hub.docker.com/r/hapiproject/hapi)
+## Ejecutar vía [Docker Hub](https://hub.docker.com/r/hapiproject/hapi)
 
-Each tagged/released version of `hapi-fhir-jpaserver` is built as a Docker image and published to Docker hub. To run the published Docker image from DockerHub:
+Cada versión etiquetada/liberada de `hapi-fhir-jpaserver` se construye como una imagen de Docker y se publica en Docker Hub. Para ejecutar la imagen Docker publicada desde DockerHub:
 
 ```
 docker pull hapiproject/hapi:latest
 docker run -p 8080:8080 hapiproject/hapi:latest
 ```
 
-This will run the docker image with the default configuration, mapping port 8080 from the container to port 8080 in the host. Once running, you can access `http://localhost:8080/` in the browser to access the HAPI FHIR server's UI or use `http://localhost:8080/fhir/` as the base URL for your REST requests.
+Esto ejecutará la imagen docker con la configuración predeterminada, mapeando el puerto 8080 del contenedor al puerto 8080 en el host. Una vez en ejecución, puedes acceder a `http://localhost:8080/` en el navegador para acceder a la interfaz del servidor HAPI FHIR o usar `http://localhost:8080/fhir/` como la URL base para tus peticiones REST.
 
-If you change the mapped port, you need to change the configuration used by HAPI to have the correct `hapi.fhir.tester` property/value.
+Si cambias el puerto mapeado, necesitas cambiar la configuración usada por HAPI para tener la propiedad/valor correcto de `hapi.fhir.tester`.
 
-### Configuration via environment variables
+### Configuración mediante variables de entorno
 
-You can customize HAPI directly from the `run` command using environment variables. For example:
+Puedes personalizar HAPI directamente desde el comando `run` usando variables de entorno. Por ejemplo:
 
 ```
 docker run -p 8080:8080 -e hapi.fhir.default_encoding=xml hapiproject/hapi:latest
 ```
 
-HAPI looks in the environment variables for properties in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) file for defaults.
+HAPI busca en las variables de entorno las propiedades del archivo [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) para los valores predeterminados.
 
-### Binary storage configuration
+### Configuración de almacenamiento binario
 
-To stream large `Binary` payloads to disk instead of the database, configure the starter with filesystem storage properties:
+Para transmitir cargas útiles `Binary` grandes al disco en lugar de a la base de datos, configura el proyecto con propiedades de almacenamiento en sistema de archivos:
 
 ```
 hapi:
@@ -59,34 +59,34 @@ hapi:
     binary_storage_enabled: true
     binary_storage_mode: FILESYSTEM
     binary_storage_filesystem_base_directory: /binstore
-    # inline_resource_storage_below_size: 131072   # optional override
+    # inline_resource_storage_below_size: 131072   # anulación opcional
 ```
 
-When `binary_storage_mode` is set to `FILESYSTEM` and `inline_resource_storage_below_size` is omitted, the starter automatically applies a 102400 byte (100 KB) inline threshold so smaller payloads remain in the database. Ensure the directory you point to is writable by the process (for Docker builds, mount it into the container with appropriate permissions).
+Cuando `binary_storage_mode` está configurado como `FILESYSTEM` y se omite `inline_resource_storage_below_size`, el proyecto aplica automáticamente un umbral de 102400 bytes (100 KB) en línea para que las cargas más pequeñas permanezcan en la base de datos. Asegúrate de que el directorio al que apuntes sea escribible por el proceso (para construcciones Docker, móntalo en el contenedor con los permisos apropiados).
 
-### Configuration via overridden application.yaml file and using Docker
+### Configuración mediante archivo application.yaml personalizado y usando Docker
 
-You can customize HAPI by telling HAPI to look for the configuration file in a different location, e.g.:
+Puedes personalizar HAPI indicándole que busque el archivo de configuración en una ubicación diferente, por ejemplo:
 
 ```
 docker run -p 8090:8080 -v $(pwd)/yourLocalFolder:/configs -e "--spring.config.location=file:///configs/another.application.yaml" hapiproject/hapi:latest
 ```
-Here, the configuration file (*another.application.yaml*) is placed locally in the folder *yourLocalFolder*.
+Aquí, el archivo de configuración (*another.application.yaml*) se coloca localmente en la carpeta *yourLocalFolder*.
 
 
 
 ```
 docker run -p 8090:8080 -e "--spring.config.location=classpath:/another.application.yaml" hapiproject/hapi:latest
 ```
-Here, the configuration file (*another.application.yaml*) is part of the compiled set of resources.
+Aquí, el archivo de configuración (*another.application.yaml*) es parte del conjunto compilado de recursos.
 
-### One-liner for quickly getting an Implementation Guide installed into HAPI
+### Línea única para instalar rápidamente una Guía de Implementación en HAPI
 
 ```
 docker run -p 8080:8080 -e "hapi.fhir.implementationguides.someIg.name=com.org.something" -e "hapi.fhir.implementationguides.someIg.version=1.2.3" -e "hapi.fhir.implementationguides.someIg.packageUrl=https://build.fhir.org/ig/yourOrg/yourIg/package.tgz" -e "hapi.fhir.implementationguides.someIg.installMode=STORE_AND_INSTALL" hapiproject/hapi:latest
 ```
 
-### Example using ``docker-compose.yml`` for docker-compose
+### Ejemplo usando ``docker-compose.yml`` para docker-compose
 
 ```yaml
 version: '3.7'
@@ -119,7 +119,7 @@ configs:
      file: ./hapi.application.yaml
 ```
 
-Provide the following content in ``./hapi.application.yaml``:
+Proporciona el siguiente contenido en ``./hapi.application.yaml``:
 
 ```yaml
 spring:
@@ -134,9 +134,9 @@ spring:
       hibernate.search.enabled: false
 ```
 
-### Example running custom interceptor using docker-compose
+### Ejemplo ejecutando interceptor personalizado usando docker-compose
 
-This example is an extension of the above one, now adding a custom interceptor.
+Este ejemplo es una extensión del anterior, ahora agregando un interceptor personalizado.
 
 ```yaml
 version: '3.7'
@@ -172,7 +172,7 @@ configs:
      file: ./hapi-extra-classes
 ```
 
-Provide the following content in ``./hapi.application.yaml``:
+Proporciona el siguiente contenido en ``./hapi.application.yaml``:
 
 ```yaml
 spring:
@@ -191,7 +191,7 @@ hapi:
     custom-interceptor-classes: the.package.containing.your.interceptor.YourInterceptor
 ```
 
-The basic interceptor structure would be like this:
+La estructura básica del interceptor sería así:
 
 ```java
 package the.package.containing.your.interceptor;
@@ -215,25 +215,25 @@ public class YourInterceptor
 }
 ```
 
-## Running locally
+## Ejecución local
 
-The easiest way to run this server entirely depends on your environment requirements. The following ways are supported:
+La forma más fácil de ejecutar este servidor depende completamente de los requisitos de tu entorno. Se admiten las siguientes formas:
 
-### Using jetty
+### Usando jetty
 ```bash
 mvn -Pjetty spring-boot:run
 ```
 
-The Server will then be accessible at http://localhost:8080/fhir and the CapabilityStatement will be found at http://localhost:8080/fhir/metadata.
+Después, el servidor será accesible en http://localhost:8080/fhir y el CapabilityStatement se encontrará en http://localhost:8080/fhir/metadata.
 
-### Using Spring Boot
+### Usando Spring Boot
 ```bash
 mvn spring-boot:run
 ```
 
-The Server will then be accessible at http://localhost:8080/fhir and the CapabilityStatement will be found at http://localhost:8080/fhir/metadata.
+Después, el servidor será accesible en http://localhost:8080/fhir y el CapabilityStatement se encontrará en http://localhost:8080/fhir/metadata.
 
-If you want to run this server on a different port, you can change the port in the `src/main/resources/application.yaml` file as follows:
+Si quieres ejecutar este servidor en un puerto diferente, puedes cambiar el puerto en el archivo `src/main/resources/application.yaml` de la siguiente manera:
 
 ```yaml
 server:
@@ -242,7 +242,7 @@ server:
   port: 8888
 ```
 
-The Server will then be accessible at http://localhost:8888/fhir and the CapabilityStatement will be found at http://localhost:8888/fhir/metadata. Remember to adjust your overlay configuration in the `application.yaml` file to the following:
+El servidor entonces será accesible en http://localhost:8888/fhir y el CapabilityStatement se encontrará en http://localhost:8888/fhir/metadata. Recuerda ajustar tu configuración de superposición en el archivo `application.yaml` de la siguiente manera:
 
 ```yaml
     tester:
@@ -254,11 +254,11 @@ The Server will then be accessible at http://localhost:8888/fhir and the Capabil
           fhir_version: R4
 ```
 
-### Using Spring Boot with :run
+### Usando Spring Boot con :run
 ```bash
 mvn clean spring-boot:run -Pboot
 ```
-Server will then be accessible at http://localhost:8080/ and e.g. http://localhost:8080/fhir/metadata. Remember to adjust you overlay configuration in the application.yaml to the following:
+Después, el servidor será accesible en http://localhost:8080/ y por ejemplo http://localhost:8080/fhir/metadata. Recuerda ajustar tu configuración de superposición en el application.yaml de la siguiente manera:
 
 ```yaml
     tester:
@@ -270,11 +270,11 @@ Server will then be accessible at http://localhost:8080/ and e.g. http://localho
           fhir_version: R4
 ```
 
-### Using Spring Boot
+### Usando Spring Boot
 ```bash
 mvn clean package spring-boot:repackage -DskipTests=true -Pboot && java -jar target/ROOT.war
 ```
-Server will then be accessible at http://localhost:8080/ and e.g. http://localhost:8080/fhir/metadata. Remember to adjust your overlay configuration in the application.yaml to the following:
+Después, el servidor será accesible en http://localhost:8080/ y por ejemplo http://localhost:8080/fhir/metadata. Recuerda ajustar tu configuración de superposición en el application.yaml de la siguiente manera:
 
 ```yaml
     tester:
@@ -285,11 +285,11 @@ Server will then be accessible at http://localhost:8080/ and e.g. http://localho
           refuse_to_fetch_third_party_urls: false
           fhir_version: R4
 ```
-### Using Spring Boot and Google distroless
+### Usando Spring Boot y Google distroless
 ```bash
 mvn clean package com.google.cloud.tools:jib-maven-plugin:dockerBuild -Dimage=distroless-hapi && docker run -p 8080:8080 distroless-hapi
 ```
-Server will then be accessible at http://localhost:8080/ and e.g. http://localhost:8080/fhir/metadata. Remember to adjust your overlay configuration in the application.yaml to the following:
+Después, el servidor será accesible en http://localhost:8080/ y por ejemplo http://localhost:8080/fhir/metadata. Recuerda ajustar tu configuración de superposición en el application.yaml de la siguiente manera:
 
 ```yaml
     tester:
@@ -301,11 +301,11 @@ Server will then be accessible at http://localhost:8080/ and e.g. http://localho
           fhir_version: R4
 ```
 
-### Using the Dockerfile and multistage build
+### Usando el Dockerfile y construcción multietapa
 ```bash
 ./build-docker-image.sh && docker run -p 8080:8080 hapi-fhir/hapi-fhir-jpaserver-starter:latest
 ```
-Server will then be accessible at http://localhost:8080/ and e.g. http://localhost:8080/fhir/metadata. Remember to adjust your overlay configuration in the application.yaml to the following:
+Después, el servidor será accesible en http://localhost:8080/ y por ejemplo http://localhost:8080/fhir/metadata. Recuerda ajustar tu configuración de superposición en el application.yaml de la siguiente manera:
 
 ```yaml
     tester:
@@ -317,19 +317,19 @@ Server will then be accessible at http://localhost:8080/ and e.g. http://localho
           fhir_version: R4
 ```
 
-## Configurations
+## Configuraciones
 
-Much of this HAPI starter project can be configured using the yaml file in _src/main/resources/application.yaml_. By default, this starter project is configured to use H2 as the database.
+Gran parte de este proyecto inicial de HAPI puede configurarse usando el archivo yaml en _src/main/resources/application.yaml_. Por defecto, este proyecto inicial está configurado para usar H2 como base de datos.
 
-### MySQL configuration
+### Configuración de MySQL
 
-HAPI FHIR JPA Server does not support MySQL as it is deprecated.
+HAPI FHIR JPA Server no admite MySQL ya que está obsoleto.
 
-See more at https://hapifhir.io/hapi-fhir/docs/server_jpa/database_support.html
+Ve más en https://hapifhir.io/hapi-fhir/docs/server_jpa/database_support.html
 
-### PostgreSQL configuration
+### Configuración de PostgreSQL
 
-To configure the starter app to use PostgreSQL, instead of the default H2, update the application.yaml file to have the following:
+Para configurar la aplicación inicial para usar PostgreSQL, en lugar del H2 predeterminado, actualiza el archivo application.yaml para tener lo siguiente:
 
 ```yaml
 spring:
@@ -343,14 +343,14 @@ spring:
       hibernate.dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
       hibernate.search.enabled: false
 
-      # Then comment all hibernate.search.backend.*
+      # Luego comenta todo hibernate.search.backend.*
 ```
 
-Because the integration tests within the project rely on the default H2 database configuration, it is important to either explicitly skip the integration tests during the build process, i.e., `mvn install -DskipTests`, or delete the tests altogether. Failure to skip or delete the tests once you've configured PostgreSQL for the datasource.driver, datasource.url, and hibernate.dialect as outlined above will result in build errors and compilation failure.
+Debido a que las pruebas de integración dentro del proyecto dependen de la configuración predeterminada de la base de datos H2, es importante omitir explícitamente las pruebas de integración durante el proceso de construcción, es decir, `mvn install -DskipTests`, o eliminar las pruebas por completo. No omitir o eliminar las pruebas una vez que hayas configurado PostgreSQL para datasource.driver, datasource.url y hibernate.dialect como se detalla arriba resultará en errores de construcción y fallo de compilación.
 
-### Microsoft SQL Server configuration
+### Configuración de Microsoft SQL Server
 
-To configure the starter app to use MS SQL Server, instead of the default H2, update the application.yaml file to have the following:
+Para configurar la aplicación inicial para usar MS SQL Server, en lugar del H2 predeterminado, actualiza el archivo application.yaml para tener lo siguiente:
 
 ```yaml
 spring:
@@ -361,69 +361,69 @@ spring:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
 ```
 
-Also, make sure you are not setting the Hibernate dialect explicitly, in other words, remove any lines similar to:
+Además, asegúrate de no estar configurando el dialecto de Hibernate explícitamente, en otras palabras, elimina cualquier línea similar a:
 
 ```
-hibernate.dialect: {some none Microsoft SQL dialect}
+hibernate.dialect: {algún dialecto que no sea Microsoft SQL}
 ```
 
 
-Because the integration tests within the project rely on the default H2 database configuration, it is important to either explicitly skip the integration tests during the build process, i.e., `mvn install -DskipTests`, or delete the tests altogether. Failure to skip or delete the tests once you've configured PostgreSQL for the datasource.driver, datasource.url, and hibernate.dialect as outlined above will result in build errors and compilation failure.
+Debido a que las pruebas de integración dentro del proyecto dependen de la configuración predeterminada de la base de datos H2, es importante omitir explícitamente las pruebas de integración durante el proceso de construcción, es decir, `mvn install -DskipTests`, o eliminar las pruebas por completo. No omitir o eliminar las pruebas una vez que hayas configurado PostgreSQL para datasource.driver, datasource.url y hibernate.dialect como se detalla arriba resultará en errores de construcción y fallo de compilación.
 
 
-NOTE: MS SQL Server by default uses a case-insensitive codepage. This will cause errors with some operations - such as when expanding case-sensitive valuesets (UCUM) as there are unique indexes defined on the terminology tables for codes.
-It is recommended to deploy a case-sensitive database prior to running HAPI FHIR when using MS SQL Server to avoid these and potentially other issues.
+NOTA: MS SQL Server por defecto usa una página de códigos insensible a mayúsculas/minúsculas. Esto causará errores con algunas operaciones - como al expandir conjuntos de valores sensibles a mayúsculas/minúsculas (UCUM) ya que hay índices únicos definidos en las tablas de terminología para códigos.
+Se recomienda desplegar una base de datos sensible a mayúsculas/minúsculas antes de ejecutar HAPI FHIR cuando uses MS SQL Server para evitar estos y potencialmente otros problemas.
 
-## Adding custom interceptors
-Custom interceptors can be registered with the server by including the property `hapi.fhir.custom-interceptor-classes`. This will take a comma separated list of fully-qualified class names which will be registered with the server.
-Interceptors will be discovered in one of two ways:
+## Agregar interceptores personalizados
+Los interceptores personalizados pueden registrarse con el servidor incluyendo la propiedad `hapi.fhir.custom-interceptor-classes`. Esto tomará una lista separada por comas de nombres de clases completamente calificados que se registrarán con el servidor.
+Los interceptores se descubrirán de una de dos formas:
 
-1) From the Spring application context as existing Beans (can be used in conjunction with `hapi.fhir.custom-bean-packages`) or registered with Spring via other methods
-2) Classes will be instantiated via reflection if no matching Bean is found
+1) Desde el contexto de la aplicación Spring como Beans existentes (puede usarse junto con `hapi.fhir.custom-bean-packages`) o registrados con Spring mediante otros métodos
+2) Las clases se instanciarán mediante reflexión si no se encuentra ningún Bean coincidente
 
-Interceptors can also be registered manually through `RestfulServer.registerInterceptor`. Take note that any interceptor registered in this way _will not fire_ for non-REST operations, e.g. creation through a DAO. To trigger in this case, you need to register your interceptors on the `IInterceptorService` bean.
+Los interceptores también pueden registrarse manualmente a través de `RestfulServer.registerInterceptor`. Ten en cuenta que cualquier interceptor registrado de esta manera _no se ejecutará_ para operaciones no REST, por ejemplo, creación a través de un DAO. Para activarse en este caso, necesitas registrar tus interceptores en el bean `IInterceptorService`.
 
-## Adding custom operations(providers)
-Custom operations(providers) can be registered with the server by including the property `hapi.fhir.custom-provider-classes`. This will take a comma separated list of fully-qualified class names which will be registered with the server.
-Providers will be discovered in one of two ways:
+## Agregar operaciones personalizadas (proveedores)
+Las operaciones personalizadas (proveedores) pueden registrarse con el servidor incluyendo la propiedad `hapi.fhir.custom-provider-classes`. Esto tomará una lista separada por comas de nombres de clases completamente calificados que se registrarán con el servidor.
+Los proveedores se descubrirán de una de dos formas:
 
-1) discovered from the Spring application context as existing Beans (can be used in conjunction with `hapi.fhir.custom-bean-packages`) or registered with Spring via other methods
+1) descubiertos desde el contexto de la aplicación Spring como Beans existentes (puede usarse junto con `hapi.fhir.custom-bean-packages`) o registrados con Spring mediante otros métodos
 
-or
+o
 
-2) classes will be instantiated via reflection if no matching Bean is found
+2) las clases se instanciarán mediante reflexión si no se encuentra ningún Bean coincidente
 
-## Customizing The Web Testpage UI
+## Personalizar la interfaz de usuario de la página web de pruebas
 
-The UI that comes with this server is an exact clone of the server available at [http://hapi.fhir.org](http://hapi.fhir.org). You may skin this UI if you'd like. For example, you might change the introductory text or replace the logo with your own.
+La interfaz que viene con este servidor es un clon exacto del servidor disponible en [http://hapi.fhir.org](http://hapi.fhir.org). Puedes personalizar esta interfaz si lo deseas. Por ejemplo, podrías cambiar el texto introductorio o reemplazar el logo con el tuyo propio.
 
-The UI is customized using [Thymeleaf](https://www.thymeleaf.org/) template files. You might want to learn more about Thymeleaf, but you don't necessarily need to: they are quite easy to figure out.
+La interfaz se personaliza usando archivos de plantilla de [Thymeleaf](https://www.thymeleaf.org/). Quizás quieras aprender más sobre Thymeleaf, pero no necesariamente lo necesitas: son bastante fáciles de entender.
 
-Several template files that can be customized are found in the following directory: [https://github.com/hapifhir/hapi-fhir-jpaserver-starter/tree/master/src/main/webapp/WEB-INF/templates](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/tree/master/src/main/webapp/WEB-INF/templates)
+Varios archivos de plantilla que pueden personalizarse se encuentran en el siguiente directorio: [https://github.com/hapifhir/hapi-fhir-jpaserver-starter/tree/master/src/main/webapp/WEB-INF/templates](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/tree/master/src/main/webapp/WEB-INF/templates)
 
-## Deploying to an Application Server
+## Desplegar en un Servidor de Aplicaciones
 
-Using the Maven-Embedded Jetty method above is convenient, but it is not a good solution if you want to leave the server running in the background.
+Usar el método Maven-Embedded Jetty anterior es conveniente, pero no es una buena solución si quieres dejar el servidor ejecutándose en segundo plano.
 
-Most people who are using HAPI FHIR JPA as a server that is accessible to other people (whether internally on your network or publicly hosted) will do so using an Application Server, such as [Apache Tomcat](http://tomcat.apache.org/) or [Jetty](https://www.eclipse.org/jetty/). Note that any Servlet 3.0+ compatible Web Container will work (e.g. Wildfly, Websphere, etc.).
+La mayoría de las personas que están usando HAPI FHIR JPA como un servidor accesible a otras personas (ya sea internamente en tu red o alojado públicamente) lo harán usando un Servidor de Aplicaciones, como [Apache Tomcat](http://tomcat.apache.org/) o [Jetty](https://www.eclipse.org/jetty/). Ten en cuenta que cualquier Contenedor Web compatible con Servlet 3.0+ funcionará (por ejemplo, Wildfly, Websphere, etc.).
 
-Tomcat is very popular, so it is a good choice simply because you will be able to find many tutorials online. Jetty is a great alternative due to its fast startup time and good overall performance.
+Tomcat es muy popular, por lo que es una buena elección simplemente porque podrás encontrar muchos tutoriales en línea. Jetty es una gran alternativa debido a su rápido tiempo de arranque y buen rendimiento general.
 
-To deploy to a container, you should first build the project:
+Para desplegar en un contenedor, primero debes construir el proyecto:
 
 ```bash
 mvn clean install
 ```
 
-This will create a file called `ROOT.war` in your `target` directory. This should be installed in your Web Container according to the instructions for your particular container. For example, if you are using Tomcat, you will want to copy this file to the `webapps/` directory.
+Esto creará un archivo llamado `ROOT.war` en tu directorio `target`. Este debe instalarse en tu Contenedor Web según las instrucciones para tu contenedor particular. Por ejemplo, si estás usando Tomcat, querrás copiar este archivo al directorio `webapps/`.
 
-Again, browse to the following link to use the server (note that the port 8080 may not be correct depending on how your server is configured).
+Nuevamente, navega al siguiente enlace para usar el servidor (ten en cuenta que el puerto 8080 puede no ser correcto dependiendo de cómo esté configurado tu servidor).
 
 [http://localhost:8080/](http://localhost:8080/)
 
-You will then be able to access the JPA server e.g. using http://localhost:8080/fhir/metadata.
+Luego podrás acceder al servidor JPA, por ejemplo, usando http://localhost:8080/fhir/metadata.
 
-If you would like it to be hosted at e.g. hapi-fhir-jpaserver, e.g. http://localhost:8080/hapi-fhir-jpaserver/ or http://localhost:8080/hapi-fhir-jpaserver/fhir/metadata - then rename the WAR file to ```hapi-fhir-jpaserver.war``` and adjust the overlay configuration accordingly e.g.
+Si te gustaría que se aloje en, por ejemplo, hapi-fhir-jpaserver, es decir, http://localhost:8080/hapi-fhir-jpaserver/ o http://localhost:8080/hapi-fhir-jpaserver/fhir/metadata - entonces renombra el archivo WAR a ```hapi-fhir-jpaserver.war``` y ajusta la configuración de superposición en consecuencia, por ejemplo:
 
 ```yaml
     tester:
@@ -436,17 +436,17 @@ If you would like it to be hosted at e.g. hapi-fhir-jpaserver, e.g. http://local
 ```
 
 
-## Deploy with docker compose
+## Desplegar con docker compose
 
-Docker compose is a simple option to build and deploy containers. To deploy with docker compose, you should build the project
-with `mvn clean install` and then bring up the containers with `docker-compose up -d --build`. The server can be
-reached at http://localhost:8080/.
+Docker compose es una opción simple para construir y desplegar contenedores. Para desplegar con docker compose, debes construir el proyecto
+con `mvn clean install` y luego levantar los contenedores con `docker-compose up -d --build`. El servidor puede ser
+alcanzado en http://localhost:8080/.
 
-In order to use another port, change the `ports` parameter
-inside `docker-compose.yml` to `8888:8080`, where 8888 is a port of your choice.
+Para usar otro puerto, cambia el parámetro `ports`
+dentro de `docker-compose.yml` a `8888:8080`, donde 8888 es un puerto de tu elección.
 
-The docker compose set also includes PostgreSQL database, if you choose to use PostgreSQL instead of H2, change the following
-properties in `src/main/resources/application.yaml`:
+El conjunto de docker compose también incluye base de datos PostgreSQL, si eliges usar PostgreSQL en lugar de H2, cambia las siguientes
+propiedades en `src/main/resources/application.yaml`:
 
 ```yaml
 spring:
@@ -463,68 +463,68 @@ jpa:
     # Then comment all hibernate.search.backend.*
 ```
 
-## Running hapi-fhir-jpaserver directly from IntelliJ as Spring Boot
-Make sure you run with the maven profile called ```boot``` and NOT also ```jetty```. Then you are ready to press debug the project directly without any extra Application Servers.
+## Ejecutar hapi-fhir-jpaserver directamente desde IntelliJ como Spring Boot
+Asegúrate de ejecutar con el perfil de maven llamado ```boot``` y NO también ```jetty```. Entonces estarás listo para depurar el proyecto directamente sin Servidores de Aplicaciones adicionales.
 
-## Running hapi-fhir-jpaserver-example in Tomcat from IntelliJ
+## Ejecutar hapi-fhir-jpaserver-example en Tomcat desde IntelliJ
 
-Install Tomcat.
+Instala Tomcat.
 
-Make sure you have Tomcat set up in IntelliJ.
+Asegúrate de tener Tomcat configurado en IntelliJ.
 
 - File->Settings->Build, Execution, Deployment->Application Servers
-- Click +
-- Select "Tomcat Server"
-- Enter the path to your tomcat deployment for both Tomcat Home (IntelliJ will fill in base directory for you)
+- Haz clic en +
+- Selecciona "Tomcat Server"
+- Ingresa la ruta a tu despliegue de tomcat tanto para Tomcat Home (IntelliJ rellenará el directorio base por ti)
 
-Add a Run Configuration for running hapi-fhir-jpaserver-example under Tomcat
+Agrega una Configuración de Ejecución para ejecutar hapi-fhir-jpaserver-example bajo Tomcat
 
 - Run->Edit Configurations
-- Click the green +
-- Select Tomcat Server, Local
-- Change the name to whatever you wish
-- Uncheck the "After launch" checkbox
-- On the "Deployment" tab, click the green +
-- Select "Artifact"
-- Select "hapi-fhir-jpaserver-example:war"
-- In "Application context" type /hapi
+- Haz clic en el + verde
+- Selecciona Tomcat Server, Local
+- Cambia el nombre a lo que desees
+- Desmarca la casilla "After launch"
+- En la pestaña "Deployment", haz clic en el + verde
+- Selecciona "Artifact"
+- Selecciona "hapi-fhir-jpaserver-example:war"
+- En "Application context" escribe /hapi
 
-Run the configuration.
+Ejecuta la configuración.
 
-- You should now have an "Application Servers" in the list of windows at the bottom.
-- Click it.
-- Select your server, and click the green triangle (or the bug if you want to debug)
-- Wait for the console output to stop
+- Ahora deberías tener "Application Servers" en la lista de ventanas en la parte inferior.
+- Haz clic en ella.
+- Selecciona tu servidor, y haz clic en el triángulo verde (o el insecto si quieres depurar)
+- Espera a que la salida de la consola se detenga
 
-Point your browser (or fiddler, or what have you) to `http://localhost:8080/hapi/baseDstu3/Patient`
+Apunta tu navegador (o fiddler, o lo que sea) a `http://localhost:8080/hapi/baseDstu3/Patient`
 
-## Enabling Subscriptions
+## Habilitar Suscripciones
 
-The server may be configured with subscription support by enabling properties in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) file:
+El servidor puede configurarse con soporte de suscripciones habilitando propiedades en el archivo [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml):
 
-- `hapi.fhir.subscription.resthook_enabled` - Enables REST Hook subscriptions, where the server will make an outgoing connection to a remote REST server
+- `hapi.fhir.subscription.resthook_enabled` - Habilita suscripciones REST Hook, donde el servidor hará una conexión saliente a un servidor REST remoto
 
-- `hapi.fhir.subscription.email.*` - Enables email subscriptions. Note that you must also provide the connection details for a usable SMTP server.
+- `hapi.fhir.subscription.email.*` - Habilita suscripciones de correo electrónico. Ten en cuenta que también debes proporcionar los detalles de conexión para un servidor SMTP utilizable.
 
-- `hapi.fhir.subscription.websocket_enabled` - Enables websocket subscriptions. With this enabled, your server will accept incoming websocket connections on the following URL (this example uses the default context path and port, you may need to tweak depending on your deployment environment): [ws://localhost:8080/websocket](ws://localhost:8080/websocket)
+- `hapi.fhir.subscription.websocket_enabled` - Habilita suscripciones websocket. Con esto habilitado, tu servidor aceptará conexiones websocket entrantes en la siguiente URL (este ejemplo usa la ruta de contexto y puerto predeterminados, es posible que necesites ajustar dependiendo de tu entorno de despliegue): [ws://localhost:8080/websocket](ws://localhost:8080/websocket)
 
-## Enabling Clinical Reasoning
+## Habilitar Razonamiento Clínico
 
-Set `hapi.fhir.cr.enabled=true` in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) file to enable [Clinical Quality Language](https://cql.hl7.org/) on this server.  An alternate settings file, [application-cds.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application-cds.yaml), exists with the Clinical Reasoning module enabled and default settings that have been found to work with most CDS and dQM test cases.
+Establece `hapi.fhir.cr.enabled=true` en el archivo [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) para habilitar [Clinical Quality Language](https://cql.hl7.org/) en este servidor. Un archivo de configuración alternativo, [application-cds.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application-cds.yaml), existe con el módulo Clinical Reasoning habilitado y configuraciones predeterminadas que se ha encontrado que funcionan con la mayoría de casos de prueba CDS y dQM.
 
-## Enabling CDS Hooks
+## Habilitar CDS Hooks
 
-Set `hapi.fhir.cdshooks.enabled=true` in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) file to enable [CDS Hooks](https://cds-hooks.org/) on this server.  The Clinical Reasoning module must also be enabled because this implementation of CDS Hooks includes [CDS on FHIR](https://build.fhir.org/clinicalreasoning-cds-on-fhir.html).  An example CDS Service using CDS on FHIR is available in the CdsHooksServletIT test class.
+Establece `hapi.fhir.cdshooks.enabled=true` en el archivo [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) para habilitar [CDS Hooks](https://cds-hooks.org/) en este servidor. El módulo Clinical Reasoning también debe estar habilitado porque esta implementación de CDS Hooks incluye [CDS on FHIR](https://build.fhir.org/clinicalreasoning-cds-on-fhir.html). Un ejemplo de servicio CDS usando CDS on FHIR está disponible en la clase de prueba CdsHooksServletIT.
 
-## Enabling MDM (EMPI)
+## Habilitar MDM (EMPI)
 
-Set `hapi.fhir.mdm_enabled=true` in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) file to enable MDM on this server.  The MDM matching rules are configured in [mdm-rules.json](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/mdm-rules.json).  The rules in this example file should be replaced with actual matching rules appropriate to your data. Note that MDM relies on subscriptions, so for MDM to work, subscriptions must be enabled.
+Establece `hapi.fhir.mdm_enabled=true` en el archivo [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) para habilitar MDM en este servidor. Las reglas de coincidencia MDM se configuran en [mdm-rules.json](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/mdm-rules.json). Las reglas en este archivo de ejemplo deben reemplazarse con reglas de coincidencia reales apropiadas para tus datos. Ten en cuenta que MDM depende de las suscripciones, por lo que para que MDM funcione, las suscripciones deben estar habilitadas.
 
-## Using Elasticsearch
+## Usar Elasticsearch
 
-By default, the server will use embedded lucene indexes for terminology and fulltext indexing purposes. You can switch this to using lucene by editing the properties in [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml)
+Por defecto, el servidor usará índices lucene embebidos para propósitos de terminología e indexación de texto completo. Puedes cambiar esto para usar lucene editando las propiedades en [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml)
 
-For example:
+Por ejemplo:
 
 ```properties
 elasticsearch.enabled=true
@@ -536,42 +536,42 @@ elasticsearch.required_index_status=YELLOW
 elasticsearch.schema_management_strategy=CREATE
 ```
 
-## Enabling LastN
+## Habilitar LastN
 
-Set `hapi.fhir.lastn_enabled=true` in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) file to enable the $lastn operation on this server.  Note that the $lastn operation relies on Elasticsearch, so for $lastn to work, indexing must be enabled using Elasticsearch.
+Establece `hapi.fhir.lastn_enabled=true` en el archivo [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) para habilitar la operación $lastn en este servidor. Ten en cuenta que la operación $lastn depende de Elasticsearch, por lo que para que $lastn funcione, la indexación debe estar habilitada usando Elasticsearch.
 
-## Enabling Resource to be stored in Lucene Index
+## Habilitar almacenamiento de recursos en Índice Lucene
 
-Set `hapi.fhir.store_resource_in_lucene_index_enabled` in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) file to enable storing of resource json along with Lucene/Elasticsearch index mappings.
+Establece `hapi.fhir.store_resource_in_lucene_index_enabled` en el archivo [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) para habilitar el almacenamiento de json de recursos junto con los mapeos de índice Lucene/Elasticsearch.
 
-## Changing cached search results time
+## Cambiar tiempo de resultados de búsqueda en caché
 
-It is possible to change the cached search results time. The option `reuse_cached_search_results_millis` in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) is 6000 milliseconds by default.
-Set `reuse_cached_search_results_millis: -1` in the [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) file to ignore the cache time every search.
+Es posible cambiar el tiempo de resultados de búsqueda en caché. La opción `reuse_cached_search_results_millis` en el [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) es 6000 milisegundos por defecto.
+Establece `reuse_cached_search_results_millis: -1` en el archivo [application.yaml](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml) para ignorar el tiempo de caché en cada búsqueda.
 
-## Build the distroless variant of the image (for lower footprint and improved security)
+## Construir la variante distroless de la imagen (para menor huella y seguridad mejorada)
 
-The default Dockerfile contains a `release-distroless` stage to build a variant of the image
-using the `gcr.io/distroless/java-debian10:11` base image:
+El Dockerfile predeterminado contiene una etapa `release-distroless` para construir una variante de la imagen
+usando la imagen base `gcr.io/distroless/java-debian10:11`:
 
 ```sh
 docker build --target=release-distroless -t hapi-fhir:distroless .
 ```
 
-Note that distroless images are also automatically built and pushed to the container registry,
-see the `-distroless` suffix in the image tags.
+Ten en cuenta que las imágenes distroless también se construyen y publican automáticamente en el registro de contenedores,
+ve el sufijo `-distroless` en las etiquetas de imagen.
 
-## Adding custom operations
+## Agregar operaciones personalizadas
 
-To add a custom operation, refer to the documentation in the core hapi-fhir libraries [here](https://hapifhir.io/hapi-fhir/docs/server_plain/rest_operations_operations.html).
+Para agregar una operación personalizada, consulta la documentación en las librerías principales de hapi-fhir [aquí](https://hapifhir.io/hapi-fhir/docs/server_plain/rest_operations_operations.html).
 
-Within `hapi-fhir-jpaserver-starter`, create a generic class (that does not extend or implement any classes or interfaces), add the `@Operation` as a method within the generic class, and then register the class as a provider using `RestfulServer.registerProvider()`.
+Dentro de `hapi-fhir-jpaserver-starter`, crea una clase genérica (que no extienda o implemente ninguna clase o interfaz), agrega la `@Operation` como un método dentro de la clase genérica, y luego registra la clase como un proveedor usando `RestfulServer.registerProvider()`.
 
-## Runtime package install
+## Instalación de paquete en tiempo de ejecución
 
-It's possible to install a FHIR Implementation Guide package (`package.tgz`) either from a published package or from a local package with the `$install` operation, without having to restart the server. This is available for R4 and R5.
+Es posible instalar un paquete de Guía de Implementación FHIR (`package.tgz`) ya sea desde un paquete publicado o desde un paquete local con la operación `$install`, sin tener que reiniciar el servidor. Esto está disponible para R4 y R5.
 
-This feature must be enabled in the application.yaml (or docker command line):
+Esta característica debe estar habilitada en el application.yaml (o línea de comandos de docker):
 
 ```yaml
 hapi:
@@ -579,7 +579,7 @@ hapi:
     ig_runtime_upload_enabled: true
 ```
 
-The `$install` operation is triggered with a POST to `[server]/ImplementationGuide/$install`, with the payload below:
+La operación `$install` se activa con un POST a `[server]/ImplementationGuide/$install`, con la carga útil a continuación:
 
 ```json
 {
@@ -593,11 +593,11 @@ The `$install` operation is triggered with a POST to `[server]/ImplementationGui
 }
 ```
 
-## Enable OpenTelemetry auto-instrumentation
+## Habilitar auto-instrumentación OpenTelemetry
 
-The container image includes the [OpenTelemetry Java auto-instrumentation](https://github.com/open-telemetry/opentelemetry-java-instrumentation)
-Java agent JAR which can be used to export telemetry data for the HAPI FHIR JPA Server. You can enable it by specifying the `-javaagent` flag,
-for example by overriding the `JAVA_TOOL_OPTIONS` environment variable:
+La imagen del contenedor incluye el JAR del agente Java de [OpenTelemetry Java auto-instrumentation](https://github.com/open-telemetry/opentelemetry-java-instrumentation)
+que puede usarse para exportar datos de telemetría para el Servidor HAPI FHIR JPA. Puedes habilitarlo especificando la bandera `-javaagent`,
+por ejemplo, anulando la variable de entorno `JAVA_TOOL_OPTIONS`:
 
 ```sh
 docker run --rm -it -p 8080:8080 \
@@ -608,8 +608,8 @@ docker run --rm -it -p 8080:8080 \
   docker.io/hapiproject/hapi:latest
 ```
 
-You can configure the agent using environment variables or Java system properties, see <https://opentelemetry.io/docs/instrumentation/java/automatic/agent-config/> for details.
+Puedes configurar el agente usando variables de entorno o propiedades del sistema Java, ve <https://opentelemetry.io/docs/instrumentation/java/automatic/agent-config/> para detalles.
 
-## Enable MCP
+## Habilitar MCP
 
-MCP capabilities can be enabled by setting the `spring.ai.mcp.server.enabled` to `true`. This will enable the MCP server and expose the MCP endpoints. The MCP endpoint is currently hardcoded to `/mcp/message` and can be tried out by running e.g. `npx @modelcontextprotocol/inspector` and connect to http://localhost:8080/mcp/message using Streamable HTTP. Spring AI MCP Server Auto Configuration is currently not supported.
+Las capacidades MCP pueden habilitarse estableciendo `spring.ai.mcp.server.enabled` a `true`. Esto habilitará el servidor MCP y expondrá los endpoints MCP. El endpoint MCP está actualmente codificado como `/mcp/message` y puede probarse ejecutando, por ejemplo, `npx @modelcontextprotocol/inspector` y conectarse a http://localhost:8080/mcp/message usando Streamable HTTP. Spring AI MCP Server Auto Configuration no está actualmente soportado.
